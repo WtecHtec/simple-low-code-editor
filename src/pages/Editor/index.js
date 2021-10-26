@@ -7,6 +7,8 @@ import {SECTORS, StyleCommands } from './StyleManager'
 import { LayerCommands } from './LayerManager'
 import { TraitCommands } from './TraitManager'
 import { BlockManager } from './BlockManager'
+import { CssComposer } from './CssComposer'
+import { ComponentManager } from './ComponentManager'
 import './style.less'
 import $ from 'jquery'
 
@@ -112,27 +114,34 @@ function EditorPage(){
     StyleCommands(editor);
     LayerCommands(editor);
     TraitCommands(editor);
+    CssComposer(editor);
 
     editor.Commands.add('set-device-desktop', {
-      run: editor => editor.setDevice('Desktop')
+      run: editor => editor.setDevice('Desktop'),
+      stop:()=>{}
     });
     editor.Commands.add('set-device-mobile', {
-      run: editor => editor.setDevice('Mobile')
+      run: editor => editor.setDevice('Mobile'),
+      stop:()=>{}
     });
     editor.on('run:preview', () =>{
+      let iframeDocument = editor.getContainer().getElementsByTagName('iframe')[0].contentWindow.document
+      iframeDocument.getElementsByTagName('body')[0].setAttribute('class','' ) 
       $('.panel__left').addClass('gjs-hidden')
       $('.panel__right').addClass('gjs-hidden')
     })
     editor.on('stop:preview', () =>{
+      let iframeDocument = editor.getContainer().getElementsByTagName('iframe')[0].contentWindow.document
+      iframeDocument.getElementsByTagName('body')[0].setAttribute('class','gjs-dashed' ) 
       $('.panel__left').removeClass('gjs-hidden')
       $('.panel__right').removeClass('gjs-hidden')
     })
-
   }
-  
+
   useEffect(() => {
     inirEditor()
     Panels(editor)
+    ComponentManager(editor)
     BlockManager(editor)
   })
 
@@ -142,13 +151,13 @@ function EditorPage(){
       <div className="panel__devices"></div>
       <div className="panel__switcher"></div>
     </div>
-    <div className="editor-row ">
-      <div className="panel__left ">
-        <div className="blocks-container  gjs-two-color"></div>
+    <div className="editor-row">
+      <div className="panel__left">
+        <div className="blocks-container"></div>
       </div>
       <div className="editor-canvas">
         <div id="editor" >
-          <h1>编辑器</h1>
+          <h1>编辑....</h1>
         </div>
       </div>
       <div className="panel__right ">
@@ -157,7 +166,6 @@ function EditorPage(){
         <div className="traits-container"></div>
       </div>
     </div>
-   
   </div>
 }
 

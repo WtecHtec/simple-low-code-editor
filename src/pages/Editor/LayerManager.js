@@ -4,7 +4,6 @@ export function LayerCommands(editor){
     getLayersEl(row) { return row.querySelector('.layers-container') },
   
     run(editor, sender) {
-      console.log('show-layers')
       const lmEl = this.getLayersEl(this.getRowEl(editor));
       lmEl.style.display = '';
     },

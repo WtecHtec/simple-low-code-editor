@@ -1,0 +1,12 @@
+.part-box {
+  padding: 48px 60px;
+  display: flex;
+  flex-wrap: wrap;
+  background: #fff;
+}
+.ec-dm {
+  width: 300px;
+  height: 300px;
+  display: inline-block;
+  background-color: #f2f2f2;
+}
